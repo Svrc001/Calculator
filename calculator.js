@@ -61,18 +61,33 @@ function inputOperator() {
     operators.forEach(op => {
         op.addEventListener('click', (event) => {
             if(number2Exist && operator !== '') {
-                result = operate(number1, number2, operator);
-                number1 = 0;
-                number2 = 0;
-                number2Exist = false;
-                number1Exist = false;
-                resultExist = true;
-                updateOnScreen(result);
+                if(operator === '/' && number2 === 0) {
+                    alert("Cannot divide by 0!");
+                    number1 = 0;
+                    number2 = 0;
+                    operator = '';
+                    number2Exist = false;
+                    number1Exist = false;
+                    initial = true;
+                    updateOnScreen('0');
+                }
+                else {
+                    result = operate(number1, number2, operator);
+                    number1 = 0;
+                    number2 = 0;
+                    number2Exist = false;
+                    number1Exist = false;
+                    resultExist = true;
+                    updateOnScreen(result);
+                }
             } 
             if(resultExist && !number1Exist) {
                 number1 = result;
                 resultExist = false;
                 number1Exist = true;
+            } else if(!number1Exist && operator === '') {
+                number1Exist = true;
+                initial = false;
             }
             
             operator = event.target.innerHTML; 
@@ -124,6 +139,13 @@ function equalTo() {
         if(number2Exist) {
             if(operator === '/' && number2 === 0) {
                 alert("Cannot divide by 0!");
+                number1 = 0;
+                number2 = 0;
+                operator = '';
+                number2Exist = false;
+                number1Exist = false;
+                initial = true;
+                updateOnScreen('0');
             }
             else {
                 result = operate(number1, number2, operator);
@@ -176,7 +198,6 @@ input();
 inputOperator();
 equalTo();
 clear();
-
 
 
 
